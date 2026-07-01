@@ -1,0 +1,98 @@
+1. page.getByRole()
+Mô tả: Dùng để tìm các phần tử dựa trên thuộc tính role của selector : button/checkbox/heading/list/table
+Ví dụ:
+HTML:
+<button role=
+"button" aria-label=
+"Submit">Submit</button>
+
+Playwright:
+await page.getByRole('button'
+, { name: 'Submit' }).click();
+-
+Ở đây, getByRole tìm button có role button và tên là Submit
+
+===========================================================================================
+2. page.getByText()
+Mô tả: Tìm kiếm phần tử dựa trên nội dung văn bản.
+Ví dụ:
+HTML
+<div>Welcome to Playwright</div>
+
+Playwright:
+await page.getByText('Welcome to Playwright').click();
+Dòng này tìm và click vào phần tử có chứa văn bản "Welcome to Playwright"
+
+===========================================================================================
+3. page.getByLabel()
+Mô tả: Tìm selector dựa trên nội dung text của thẻ <label>
+Ví dụ
+label for="username">Username</label>
+<input id="username" type="text" />
+
+Playwright:
+await page.getByLabel('Username').fill('user1');
+Phần tử input có label "Username" sẽ được tìm thấy và điền giá trị 'user1'
+
+===========================================================================================
+4. page.getByPlaceholder()
+Mô tả: Dựa trên thuộc tính placeholder.
+Ví dụ
+HTML
+<input type="email" placeholder="Enter your email" />
+
+Playwright:
+await page.getByPlaceholder('Enter your email').fill('user@example.com');
+
+===========================================================================================
+5. page.getByAltText()
+Mô tả: Tìm kiếm phần tử, thường là hình ảnh, dựa trên văn bản thay thế (alt text).
+Ví dụ
+HTML
+<img src="logo.png" alt="Company Logo" />
+
+Playwright:
+await page.getByAltText('Company Logo').click();
+Dòng này sẽ tìm hình ảnh có alt text "Company Logo" và thực hiện click.
+
+===========================================================================================
+6. page.getByTitle()
+Mô tả: Lấy phần tử dựa trên thuộc tính title.
+
+Ví dụ
+HTML:
+<button title="Close">X</button>
+
+Playwright:
+await page.getByTitle('Close').click();
+Phần tử có title là "Close" sẽ được tìm và click.
+
+===========================================================================================
+7. page.getByTestId()
+Mô tả: Tìm kiếm phần tử dựa trên thuộc tính data-testid, hoặc các thuộc tính khác
+có thể được config.
+Ví dụ
+HTML
+<button data-testid="submit-button">Submit</button>
+Playwright:
+await page.getByTestId('submit-button').click();
+
+Phần tử có data-testid là "submit-button" sẽ được tìm và nhấn vào.
+
+
+Note
+
+- page.getByTestId() trong Playwright được thiết kế đặc biệt để tìm các phần
+tử dựa trên thuộc tính data-testid. Mặc định, nó chỉ hoạt động với
+data-testid. Tuy nhiên, bạn có thể cấu hình Playwright để cho phép
+page.getByTestId() sử dụng các thuộc tính khác, bao gồm cả id.
+- Nếu bạn muốn sử dụng page.getByTestId() với thuộc tính id, bạn có thể cấu hình Playwright như sau:
+
+const { test, expect } = require('@playwright/test');
+
+test('example test', async ({ page }) => {
+// Cấu hình để sử dụng 'id' thay cho 'data-testid'
+await page.setTestIdAttribute('id');
+// Bây giờ bạn có thể sử dụng page.getByTestId với 'id'
+await page.getByTestId('submit-button').click();
+});
